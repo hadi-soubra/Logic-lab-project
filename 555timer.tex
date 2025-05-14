@@ -1,0 +1,67 @@
+\documentclass{standalone}
+\usepackage[siunitx]{circuitikz}
+\usepackage{xcolor}
+
+\begin{document}
+\begin{circuitikz}[american, transform shape, scale=0.9]
+
+\draw[thick] (0.5,1.5) rectangle (11.5,9);
+
+\draw[fill=yellow!70] (6,3) rectangle (9,7);
+
+\node at (6.5,6.5) {DIS};
+\node at (6.5,5.5) {THR};
+\node at (6.5,4.5) {TRIG};
+\node at (6.5,3.5) {GND};
+\node at (8.5,6.5) {VCC};
+\node at (8.4,5.5) {RESET};
+\node at (8.5,4.5) {OUT};
+
+\draw (5.8,6.7) node[font=\footnotesize] {$7$};
+\draw (5.8,5.7) node[font=\footnotesize] {$6$};
+\draw (5.8,4.7) node[font=\footnotesize] {$2$};
+\draw (5.8,3.7) node[font=\footnotesize] {$1$};
+\draw (9.2,6.7) node[font=\footnotesize] {$8$};
+\draw (9.2,5.7) node[font=\footnotesize] {$4$};
+\draw (9.2,4.7) node[font=\footnotesize] {$3$};
+
+\node at (7.5,2.5) {555 TIMER};
+
+% VCC connections - spread them out more
+\draw (3,8.5) node[anchor=south] {VCC} -- (3,8);
+\draw (3,8) to[R, l=$\mathrm{10K}$, *-*] (3,6.5);
+\draw (3,6.5) -- (3,4.5);
+
+\draw (4.5,8.5) node[anchor=south] {VCC} -- (4.5,8);
+\draw (4.5,8)  to[R, l=$\mathrm{300K}$] (4.5,6.5);
+\draw (4.5,6.5) -- (6,6.5);
+
+% VCC to pin 8 and RESET
+\draw (9.5,8.5) node[anchor=south] {VCC} -- (9.5,6.5) -- (9,6.5);
+\draw (9.5,6.5) -- (9.5,5.5) -- (9,5.5); % Connect RESET to VCC
+
+
+\draw (6,3.5) -- (3,3.5) -- (3,3.5) -- (3,3.5);
+
+% Capacitor C1 - connected to THR (pin 6)
+\draw (4.5,5.5) -- (4.5,5.1);
+\draw (4.5,5.1) to[C, l=$\mathrm{10u}$] (4.5,3);
+\draw (4.5,3) -- (4.5,2.5) node[ground]{};
+\draw (6,5.5) -- (4.5,5.5); % Connect to THR (pin 6)
+
+% Connect DIS (pin 7) to THR (pin 6)
+\draw (6,6.5) -- (4.5,6.5) -- (4.5,5.5) -- (6,5.5);
+
+% Switch S1 - connected between TRIG and ground
+
+\draw (3,4.5) to[switch, l=$\mathrm{S1}$] (3,3.5);
+\draw (6,4.5) -- (3,4.5); % Connect to TRIG (pin 2)
+
+
+% Output line - extended
+\draw (9,4.5) -- (10.5,4.5);
+\draw[-latex] (10.5,4.5) -- (11,4.5);
+
+
+\end{circuitikz}
+\end{document}
